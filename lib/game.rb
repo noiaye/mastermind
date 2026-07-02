@@ -21,23 +21,28 @@ class GameClass
 
   def computer_play_against_human
     creation = computer_player.randomizecolors
+    amount = 1
     # puts creation, 'Code'
     loop do
       computer_player.display_colors
       guess = human_player.guess
-      amount = 0
+
       if guess == creation
         puts 'You guessed the code correctly! Well done.'
         break
-      elsif guess != creation && amount <= 12
+      elsif guess != creation && amount < 12
         amount += 1
         puts 'Incorrectly guessed but here is a hint mate: '
+        p "Guess, #{amount}"
         computer_player.give_hint(guess, creation)
+      else
+        p 'Game maker won invalid amount of guessed'
+        p "The code was: #{creation}"
+        break
       end
     end
   end
 end
 
 game = GameClass.new
-# game.computer_play_against_human
 game.computer_play_against_human
