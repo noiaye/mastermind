@@ -22,13 +22,14 @@ class GameClass
   def computer_play_against_human
     creation = computer_player.randomizecolors
     amount = 1
-    # puts creation, 'Code'
+    puts creation, 'Code'
     loop do
       computer_player.display_colors
       guess = human_player.guess
 
       if guess == creation
         puts 'You guessed the code correctly! Well done.'
+        puts creation
         break
       elsif guess != creation && amount < 12
         amount += 1

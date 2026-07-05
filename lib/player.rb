@@ -25,16 +25,26 @@ class ComputerPlayer < PlayerClass
   def give_hint(colors_guessed_array, secret_code_array)
     colored_peg = 0
     white_peg = 0
-    colors_guessed_array.each_with_index do |i, v|
-      secret_code_array.each_with_index do |y, x|
-        if i == y && v == x
+    occupied_places = []
+    colors_guessed_array.each_with_index do |value, index|
+      secret_code_array.each_with_index do |value1, index1|
+        if value == value1 && index == index1
           colored_peg += 1
-        elsif i == y && v != x
+          occupied_places.push(index1)
+          break
+        elsif value == value1 && index != index1
+          next if occupied_places.include?(index1)
+
           white_peg += 1
+          occupied_places.push(index1)
+          break
         end
       end
     end
+
     puts "Colored peg: #{colored_peg}, White Peg: #{white_peg}"
+    colored_peg = 0
+    white_peg = 0
   end
 end
 
@@ -50,39 +60,18 @@ class HumanPlayer < PlayerClass
   end
 end
 
-# Todo, fix randomizing method to not generate same code every single time.
-# red blue white yellow green pink black orange brown
-# What is your first guess? Hint: The code is 4 colors long
-# brown black blue orange
-# Incorrectly guessed but here is a hint mate:
-# "Guess, 5"
-# Colored peg: 1, White Peg: 3
-# red blue white yellow green pink black orange brown
-# What is your first guess? Hint: The code is 4 colors long
-# brown orange black blue
-# Incorrectly guessed but here is a hint mate:
-# "Guess, 6"
-# Colored peg: 1, White Peg: 3
-# red blue white yellow green pink black orange brown
-# What is your first guess? Hint: The code is 4 colors long
-# brown blue orange black
-# Incorrectly guessed but here is a hint mate:
-# "Guess, 7"
-# Colored peg: 3, White Peg: 1
-# red blue white yellow green pink black orange brown
-# What is your first guess? Hint: The code is 4 colors long
-# brown blue orange black
-# Incorrectly guessed but here is a hint mate:
-# "Guess, 8"
-# Colored peg: 3, White Peg: 1
-# red blue white yellow green pink black orange brown
-# What is your first guess? Hint: The code is 4 colors long
-# brown blue orange blue
-# Incorrectly guessed but here is a hint mate:
-# "Guess, 9"
-# Colored peg: 3, White Peg: 2
-# red blue white yellow green pink black orange brown
-# What is your first guess? Hint: The code is 4 colors long
-# brown blue orange brown
+# TODO
 #
-# How could there by 2 white pegs, fix this
+# How to deal with duplicates
+#
+# yellow green white white: guessed
+# yellow blue white white: actual
+#
+# output so far: 2 COLORED PEG?? 0 white peg
+#
+#
+#
+
+# So for the special case where the values are the same but the indexes are different
+# We need to only get the first occurence of a value which is not already occupied by a different value
+# so maybe we can have an array index of matched values and then go from there
