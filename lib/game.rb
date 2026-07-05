@@ -43,7 +43,21 @@ class GameClass
       end
     end
   end
+
+  def human_play_against_computer
+    creation = human_player.create_colors # The humans creation which we can define in human class i guess?
+    p creation
+    # Logic>
+    # Human player generates code
+    # Loop starts
+    # We do as computer vs human method, however we have specialized methods for the computer player
+    # Methods required:
+    # Guess randomly
+    # Uhm, keep colors which were correct
+    # Depending on the amount of pegs, we can do different things
+    # So you know what let us perhaps make a peg method here so that it will help us
+  end
 end
 
 game = GameClass.new
-game.computer_play_against_human
+game.human_play_against_computer

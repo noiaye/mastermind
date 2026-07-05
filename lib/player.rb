@@ -58,20 +58,12 @@ class HumanPlayer < PlayerClass
       puts 'Invalid input'
     end
   end
+
+  def create_colors
+    colors = %w[red blue white yellow green pink black orange brown]
+    puts 'Create a color code of 4 colors, they may repeat, format is "color color color color"'
+    gets.downcase.split(' ')
+  end
 end
 
 # TODO
-#
-# How to deal with duplicates
-#
-# yellow green white white: guessed
-# yellow blue white white: actual
-#
-# output so far: 2 COLORED PEG?? 0 white peg
-#
-#
-#
-
-# So for the special case where the values are the same but the indexes are different
-# We need to only get the first occurence of a value which is not already occupied by a different value
-# so maybe we can have an array index of matched values and then go from there
