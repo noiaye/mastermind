@@ -1,5 +1,6 @@
 require_relative 'player'
-
+require 'pry'
+require 'pry-byebug'
 class GameClass
   def initialize
     @current_player_id = 1
@@ -9,6 +10,10 @@ class GameClass
 
   def computer_player
     players[1]
+  end
+
+  def display_colors_game(colors)
+    puts colors
   end
 
   def human_player
@@ -45,8 +50,20 @@ class GameClass
   end
 
   def human_play_against_computer
+    binding.pry
     creation = human_player.create_colors # The humans creation which we can define in human class i guess?
-    p creation
+    loop do
+      display_colors_game(creation)
+      guess = computer_player.random_guess(creation)
+
+      case guess
+      when guess == creation
+        puts 'Computer wins'
+        puts creation
+      when creation.any? { |v| guess.include?(v) }
+        computer_player.values_and_index(guess, creation)
+      end
+    end
     # Logic>
     # Human player generates code
     # Loop starts
