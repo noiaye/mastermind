@@ -31,11 +31,25 @@ class ComputerPlayer < PlayerClass
   end
 
   def values_and_index(computer_guess, generated_array)
-    new_array = []
-    generated_array.each_with_index do |v, i|
-      computer_guess.each_woth_index do |z, t|
+    new_array = [nil, nil, nil, nil]
+    occupied_places = []
+    computer_guess.each_with_index do |v, i|
+      generated_array.each_with_index do |z, t|
         if v == z && i == t
-          new_array.push(1)
+          next if occupied_places.include?(t)
+
+          new_array[i] = 1
+          occupied_places.push(t)
+          break
+
+        elsif v == z && i != t
+          next if occupied_places.include?(t)
+
+          new_array[i] = 2
+          occupied_places.push(t)
+          break
+        elsif v != z
+          new_array[i] = 3
           break
         end
       end
@@ -57,6 +71,8 @@ class ComputerPlayer < PlayerClass
     colors_guessed_array.each_with_index do |value, index|
       secret_code_array.each_with_index do |value1, index1|
         if value == value1 && index == index1
+          next if occupied_places.include?(index1)
+
           colored_peg += 1
           occupied_places.push(index1)
           break
