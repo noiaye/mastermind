@@ -52,7 +52,6 @@ class GameClass
   def human_play_against_computer
     creation = human_player.create_colors # The humans creation which we can define in human class i guess?
     loop do
-      binding.pry
       display_colors_game(creation)
       guess = computer_player.random_guess(creation)
 
@@ -61,10 +60,11 @@ class GameClass
         puts creation
         break
       end
-      if creation.any? { |v| guess.include?(v) } == true
-        puts 'Values and index> ', computer_player.values_and_index(guess, creation)
-        break
-      end
+      next unless creation.any? { |v| guess.include?(v) } == true
+
+      puts 'Values and index> ', computer_player.values_and_index(guess, creation)
+      puts "Creation: #{creation} Guess: #{guess}"
+      break
     end
     # Logic>
     # Human player generates code

@@ -50,11 +50,12 @@ class ComputerPlayer < PlayerClass
           break
         elsif v != z
           new_array[i] = 3
-          break
+
         end
       end
     end
     puts "new array: #{new_array}"
+
     # Values and index means that both the value and the index was matched in the color array that the player generated
     # We should make this keep the colors matched but do something with the rest of the colors
   end
@@ -111,3 +112,10 @@ class HumanPlayer < PlayerClass
 end
 
 # TODO
+# Make method for:
+# Check if a color becomes 1, otherwise keep all the ones and:
+# If it does become 1, then check if all the values are 1, otherwise we do the below
+#
+#
+# Shuffle between 2 and 3 for 2 (cuz 2 was the value just in wrong position, and 3 is values we dont care about)
+# Change color if 3
