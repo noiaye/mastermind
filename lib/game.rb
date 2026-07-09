@@ -1,6 +1,11 @@
+# frozen_string_literal: true
+
 require_relative 'player'
+require_relative 'human_player'
 require 'pry'
 require 'pry-byebug'
+
+# GameClass is in charge of handling all game events, and controlling the flow of the game itself.
 class GameClass
   def initialize
     @current_player_id = 1
@@ -10,6 +15,11 @@ class GameClass
 
   def computer_player
     players[1]
+  end
+
+  def switch_colors(colors)
+    colors.each_with_index do |v, i|
+    end
   end
 
   def display_colors_game(colors)
@@ -50,7 +60,7 @@ class GameClass
   end
 
   def human_play_against_computer
-    creation = human_player.create_colors # The humans creation which we can define in human class i guess?
+    creation = human_player.create_colors
     loop do
       display_colors_game(creation)
       guess = computer_player.random_guess(creation)

@@ -93,23 +93,23 @@ class ComputerPlayer < PlayerClass
   end
 end
 
-class HumanPlayer < PlayerClass
-  def guess
-    loop do
-      puts 'What is your first guess? Hint: The code is 4 colors long'
-      answer = gets.chomp.split(' ')
-      return answer if answer.length == 4
+# class HumanPlayer < PlayerClass
+#   def guess
+#     loop do
+#       puts 'What is your first guess? Hint: The code is 4 colors long'
+#       answer = gets.chomp.split(' ')
+#       return answer if answer.length == 4
 
-      puts 'Invalid input'
-    end
-  end
+#       puts 'Invalid input'
+#     end
+#   end
 
-  def create_colors
-    colors = %w[red blue white yellow green pink black orange brown]
-    puts 'Create a color code of 4 colors, they may repeat, format is "color color color color"'
-    gets.downcase.split(' ')
-  end
-end
+#   def create_colors
+#     colors = %w[red blue white yellow green pink black orange brown]
+#     puts 'Create a color code of 4 colors, they may repeat, format is "color color color color"'
+#     gets.downcase.split(' ')
+#   end
+# end
 
 # TODO
 # Make method for:
