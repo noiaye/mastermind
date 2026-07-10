@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'player'
 require_relative 'human_player'
 require 'pry'
 require 'pry-byebug'
@@ -89,4 +88,4 @@ class GameClass
 end
 
 game = GameClass.new
-game.human_play_against_computer
+game.computer_play_against_human

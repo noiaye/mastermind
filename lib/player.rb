@@ -93,24 +93,6 @@ class ComputerPlayer < PlayerClass
   end
 end
 
-# class HumanPlayer < PlayerClass
-#   def guess
-#     loop do
-#       puts 'What is your first guess? Hint: The code is 4 colors long'
-#       answer = gets.chomp.split(' ')
-#       return answer if answer.length == 4
-
-#       puts 'Invalid input'
-#     end
-#   end
-
-#   def create_colors
-#     colors = %w[red blue white yellow green pink black orange brown]
-#     puts 'Create a color code of 4 colors, they may repeat, format is "color color color color"'
-#     gets.downcase.split(' ')
-#   end
-# end
-
 # TODO
 # Make method for:
 # Check if a color becomes 1, otherwise keep all the ones and:
@@ -119,3 +101,6 @@ end
 #
 # Shuffle between 2 and 3 for 2 (cuz 2 was the value just in wrong position, and 3 is values we dont care about)
 # Change color if 3
+
+player = PlayerClass.new('e', 'z')
+p player
