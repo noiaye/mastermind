@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'human_player'
+require_relative 'computer_player'
 require 'pry'
 require 'pry-byebug'
 
