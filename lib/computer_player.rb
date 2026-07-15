@@ -3,12 +3,14 @@
 require_relative 'player'
 require 'pry-byebug'
 
+# The computerPLayer class, handles all things done by the computer player
 class ComputerPlayer2 < PlayerClass
   def initialize
     super
     @algorithm_array = %w[nil nil nil nil]
+    @occupied_places = []
   end
-  attr_accessor :algorithm_array
+  attr_accessor :algorithm_array, :occupied_places
 
   def randomizecolors
     new_array = []
@@ -32,19 +34,44 @@ class ComputerPlayer2 < PlayerClass
     new_arr
   end
 
+  def perform_filter(player_creation, computer_guess)
+    exact_values(computer_guess, player_creation)
+    dif_index(computer_guess, player_creation)
+    none_index(computer_guess, player_creation)
+  end
+
   def exact_values(computer_guess, player_creation)
-    occupied_places = []
     computer_guess.each_with_index do |v, i|
       player_creation.each_with_index do |x, y|
-        next unless v == x && i == y
-        next if occupied_places.include?(y)
+        next unless v == x && i == y && occupied_places.include?(y) == false
 
         algorithm_array[i] = 1
         occupied_places.push(y)
         break
       end
     end
-    puts "new array: #{new_array}"
+  end
+
+  def dif_index(computer_guess, player_creation)
+    computer_guess.each_with_index do |v, i|
+      player_creation.each_with_index do |x, y|
+        next unless v == x && i != y && occupied_places.include?(y) == false
+
+        algorithm_array[i] = 2
+        occupied_places.push(y)
+      end
+    end
+  end
+
+  def none_index(computer_guess, player_creation)
+    computer_guess.each do |v, i|
+      player_creation.each do |x, y|
+        next unless v != x
+
+        algorithm_array[i] = 3
+        occupied_places.push(y)
+      end
+    end
   end
 end
 
