@@ -5,7 +5,7 @@ require 'pry-byebug'
 
 # The computerPLayer class, handles all things done by the computer player
 class ComputerPlayer2 < PlayerClass
-  def initialize
+  def initialize(game, marker)
     super
     @algorithm_array = %w[nil nil nil nil]
     @occupied_places = []
@@ -35,9 +35,12 @@ class ComputerPlayer2 < PlayerClass
   end
 
   def perform_filter(player_creation, computer_guess)
+    binding.pry
     exact_values(computer_guess, player_creation)
     dif_index(computer_guess, player_creation)
     none_index(computer_guess, player_creation)
+
+    algorithm_array
   end
 
   def exact_values(computer_guess, player_creation)
@@ -64,12 +67,11 @@ class ComputerPlayer2 < PlayerClass
   end
 
   def none_index(computer_guess, player_creation)
-    computer_guess.each do |v, i|
-      player_creation.each do |x, y|
-        next unless v != x
+    computer_guess.each_with_index do |v, i|
+      player_creation.each_with_index do |x, y|
+        next unless v != x && occupied_places.include?(y) == false
 
         algorithm_array[i] = 3
-        occupied_places.push(y)
       end
     end
   end
@@ -80,7 +82,12 @@ end
 #
 computer_guess = %w[red red blue green]
 player_creation = %w[red red blue red]
-ComputerPlayer2.new('e', 'e').exact_values(computer_guess, player_creation)
+newplr = ComputerPlayer2.new('e', 'e')
+p newplr
+newplr.perform_filter(player_creation, computer_guess)
+p newplr
+
+# Algorithm array should show: 1, 1, 1, 3
 
 # Conditions for win:
 # All are 1
@@ -90,3 +97,7 @@ ComputerPlayer2.new('e', 'e').exact_values(computer_guess, player_creation)
 # Minimum 1 three
 #
 # We go through all the values in the array and check
+
+## Maybe use [][] isntead?
+
+# Fix issue with the dif index, figure it out using binding pry and solve it here
