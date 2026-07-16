@@ -35,7 +35,6 @@ class ComputerPlayer2 < PlayerClass
   end
 
   def perform_filter(player_creation, computer_guess)
-    binding.pry
     exact_values(computer_guess, player_creation)
     dif_index(computer_guess, player_creation)
     none_index(computer_guess, player_creation)
@@ -58,10 +57,11 @@ class ComputerPlayer2 < PlayerClass
   def dif_index(computer_guess, player_creation)
     computer_guess.each_with_index do |v, i|
       player_creation.each_with_index do |x, y|
-        next unless v == x && i != y && occupied_places.include?(y) == false
+        next unless v == x && i != y && occupied_places.include?(i) == false && occupied_places.include?(y) == false
 
         algorithm_array[i] = 2
         occupied_places.push(y)
+        break
       end
     end
   end
@@ -69,9 +69,10 @@ class ComputerPlayer2 < PlayerClass
   def none_index(computer_guess, player_creation)
     computer_guess.each_with_index do |v, i|
       player_creation.each_with_index do |x, y|
-        next unless v != x && occupied_places.include?(y) == false
+        next unless v != x && occupied_places.include?(y) == false && occupied_places.include?(i) == false
 
         algorithm_array[i] = 3
+        break
       end
     end
   end
@@ -80,7 +81,7 @@ end
 # TODO
 # Make hint and values and index array simpler
 #
-computer_guess = %w[red red blue green]
+computer_guess = %w[red red pink green]
 player_creation = %w[red red blue red]
 newplr = ComputerPlayer2.new('e', 'e')
 p newplr
