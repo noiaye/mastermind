@@ -28,7 +28,7 @@ class ComputerPlayer2 < PlayerClass
 
   def give_hint_exact(colors_guessed_array, secret_code_array)
     # Do
-    #
+
     colors_guessed_array.each_with_index do |v, i|
       secret_code_array.each_with_index do |x, y|
         next unless v == x && i == y && occupied_places_h.include?(y) == false
@@ -38,6 +38,26 @@ class ComputerPlayer2 < PlayerClass
         break
       end
     end
+
+    self.occupied_places_h = []
+
+    colored_peg
+  end
+
+  def give_hint_white(colors_guessed_array, secret_code_array)
+    colors_guessed_array.each_with_index do |v, i|
+      secret_code_array.each_with_index do |x, y|
+        next unless v == x && i != y && occupied_places_h.include?(i) == false && occupied_places_h.include?(y) == false
+
+        self.white_peg += 1
+        occupied_places_h.push(y)
+      end
+    end
+
+    # Temoporary
+    self.occupied_places_h = []
+
+    white_peg
   end
 
   def random_guess(generated_colors)
@@ -102,3 +122,11 @@ end
 # TODO
 # Move over hint method from player.rb to computer_player.rb
 # Check optimizations required
+newPLayer = ComputerPlayer2.new('e', 'e')
+computer_gen = %w[red red blue red]
+player_guess = %w[red blue blue red]
+whites = newPLayer.give_hint_white(player_guess, computer_gen)
+colored = newPLayer.give_hint_exact(player_guess, computer_gen)
+
+p colored
+p whites
