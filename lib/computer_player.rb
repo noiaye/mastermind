@@ -7,10 +7,13 @@ require 'pry-byebug'
 class ComputerPlayer2 < PlayerClass
   def initialize(game, marker)
     super
+    @colored_peg = 0
+    @white_peg = 0
     @algorithm_array = %w[nil nil nil nil]
-    @occupied_places = []
+    @occupied_places_f = []
+    @occupied_places_h = []
   end
-  attr_accessor :algorithm_array, :occupied_places
+  attr_accessor :algorithm_array, :occupied_places_f, :colored_peg, :white_peg, :occupied_places_h
 
   def randomizecolors
     new_array = []
@@ -21,6 +24,20 @@ class ComputerPlayer2 < PlayerClass
       new_array.push(colors[i])
     end
     new_array
+  end
+
+  def give_hint_exact(colors_guessed_array, secret_code_array)
+    # Do
+    #
+    colors_guessed_array.each_with_index do |v, i|
+      secret_code_array.each_with_index do |x, y|
+        next unless v == x && i == y && occupied_places_h.include?(y) == false
+
+        self.colored_peg += 1
+        occupied_places_h.push(y)
+        break
+      end
+    end
   end
 
   def random_guess(generated_colors)
@@ -45,10 +62,10 @@ class ComputerPlayer2 < PlayerClass
   def exact_values(computer_guess, player_creation)
     computer_guess.each_with_index do |v, i|
       player_creation.each_with_index do |x, y|
-        next unless v == x && i == y && occupied_places.include?(y) == false
+        next unless v == x && i == y && occupied_places_f.include?(y) == false
 
         algorithm_array[i] = 1
-        occupied_places.push(y)
+        occupied_places_f.push(y)
         break
       end
     end
@@ -57,10 +74,10 @@ class ComputerPlayer2 < PlayerClass
   def dif_index(computer_guess, player_creation)
     computer_guess.each_with_index do |v, i|
       player_creation.each_with_index do |x, y|
-        next unless v == x && i != y && occupied_places.include?(i) == false && occupied_places.include?(y) == false
+        next unless v == x && i != y && occupied_places_f.include?(i) == false && occupied_places_f.include?(y) == false
 
         algorithm_array[i] = 2
-        occupied_places.push(y)
+        occupied_places_f.push(y)
         break
       end
     end
@@ -69,36 +86,19 @@ class ComputerPlayer2 < PlayerClass
   def none_index(computer_guess, player_creation)
     computer_guess.each_with_index do |v, i|
       player_creation.each_with_index do |x, y|
-        next unless v != x && occupied_places.include?(y) == false && occupied_places.include?(i) == false
+        next unless v != x && occupied_places_f.include?(y) == false && occupied_places_f.include?(i) == false
 
         algorithm_array[i] = 3
         break
       end
     end
   end
+
+  def display_colors
+    puts 'red blue white yellow green pink black orange brown'
+  end
 end
 
 # TODO
-# Make hint and values and index array simpler
-#
-computer_guess = %w[red red pink green]
-player_creation = %w[red red blue red]
-newplr = ComputerPlayer2.new('e', 'e')
-p newplr
-newplr.perform_filter(player_creation, computer_guess)
-p newplr
-
-# Algorithm array should show: 1, 1, 1, 3
-
-# Conditions for win:
-# All are 1
-# Conditions for swap:
-# Minimum 2 values either 2 or 3
-# Conditions for change
-# Minimum 1 three
-#
-# We go through all the values in the array and check
-
-## Maybe use [][] isntead?
-
-# Fix issue with the dif index, figure it out using binding pry and solve it here
+# Move over hint method from player.rb to computer_player.rb
+# Check optimizations required

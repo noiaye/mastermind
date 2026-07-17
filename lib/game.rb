@@ -35,6 +35,7 @@ class GameClass
   end
 
   def computer_play_against_human
+    # OPTIMIZE
     creation = computer_player.randomizecolors
     amount = 1
     puts creation, 'Code'
@@ -60,6 +61,7 @@ class GameClass
   end
 
   def human_play_against_computer
+    # OPTIMIZE
     creation = human_player.create_colors
     loop do
       display_colors_game(creation)
