@@ -7,35 +7,35 @@ class PlayerClass
   attr_reader :marker, :game
 end
 
-class ComputerPlayer < PlayerClass
-  def give_hint(colors_guessed_array, secret_code_array)
-    # OPTIMIZE: by using seperate if statements
-    colored_peg = 0
-    white_peg = 0
-    occupied_places = []
-    colors_guessed_array.each_with_index do |value, index|
-      secret_code_array.each_with_index do |value1, index1|
-        if value == value1 && index == index1
-          next if occupied_places.include?(index1)
+# class ComputerPlayer < PlayerClass
+#   def give_hint(colors_guessed_array, secret_code_array)
+#     # OPTIMIZE: by using seperate if statements
+#     colored_peg = 0
+#     white_peg = 0
+#     occupied_places = []
+#     colors_guessed_array.each_with_index do |value, index|
+#       secret_code_array.each_with_index do |value1, index1|
+#         if value == value1 && index == index1
+#           next if occupied_places.include?(index1)
 
-          colored_peg += 1
-          occupied_places.push(index1)
-          break
-        elsif value == value1 && index != index1
-          next if occupied_places.include?(index1)
+#           colored_peg += 1
+#           occupied_places.push(index1)
+#           break
+#         elsif value == value1 && index != index1
+#           next if occupied_places.include?(index1)
 
-          white_peg += 1
-          occupied_places.push(index1)
-          break
-        end
-      end
-    end
+#           white_peg += 1
+#           occupied_places.push(index1)
+#           break
+#         end
+#       end
+#     end
 
-    puts "Colored peg: #{colored_peg}, White Peg: #{white_peg}"
-    colored_peg = 0
-    white_peg = 0
-  end
-end
+#     puts "Colored peg: #{colored_peg}, White Peg: #{white_peg}"
+#     colored_peg = 0
+#     white_peg = 0
+#   end
+# end
 
 # TODO
 # Make method for:
