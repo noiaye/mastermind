@@ -40,8 +40,6 @@ class ComputerPlayer2 < PlayerClass
     end
 
     self.occupied_places_h = []
-
-    colored_peg
   end
 
   def give_hint_white(colors_guessed_array, secret_code_array)
@@ -56,8 +54,6 @@ class ComputerPlayer2 < PlayerClass
 
     # Temoporary
     self.occupied_places_h = []
-
-    white_peg
   end
 
   def random_guess(generated_colors)
@@ -77,6 +73,18 @@ class ComputerPlayer2 < PlayerClass
     none_index(computer_guess, player_creation)
 
     algorithm_array
+  end
+
+  def to_zero
+    self.colored_peg = 0
+    self.white_peg = 0
+  end
+
+  def give_colors(player_guess, computer_gen)
+    give_hint_exact(player_guess, computer_gen)
+    give_hint_white(player_guess, computer_gen)
+    puts "Colored pegs: #{colored_peg}, White pegs: #{white_peg}"
+    to_zero
   end
 
   def exact_values(computer_guess, player_creation)
@@ -120,13 +128,9 @@ class ComputerPlayer2 < PlayerClass
 end
 
 # TODO
-# Move over hint method from player.rb to computer_player.rb
+# Work on fixing hint methods
 # Check optimizations required
 newPLayer = ComputerPlayer2.new('e', 'e')
 computer_gen = %w[red red blue red]
 player_guess = %w[red blue blue red]
-whites = newPLayer.give_hint_white(player_guess, computer_gen)
-colored = newPLayer.give_hint_exact(player_guess, computer_gen)
-
-p colored
-p whites
+p newPLayer.give_colors(player_guess, computer_gen)
