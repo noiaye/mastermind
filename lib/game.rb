@@ -43,11 +43,11 @@ class GameClass
 
   def redo_g(amount, guess, creation)
     puts 'Incorrectly guessed but here is a hint mate: '
-    computer_player.give_hint(guess, creation)
+    computer_player.give_colors(guess, creation)
     p("Guessm #{amount}")
   end
 
-  def lost_g
+  def lost_g(creation)
     p 'Game maker won invalid amount of guessed'
     p "The code was: #{creation}"
   end
@@ -59,8 +59,10 @@ class GameClass
   end
 
   def computer_play_against_human
-    # OPTIMIZE
+    # For testing only
+
     creation = computer_player.randomizecolors
+    p "Code: (Testing) #{creation}"
     loop do
       computer_player.display_colors
       guess = human_player.guess
@@ -72,7 +74,7 @@ class GameClass
         self.amount += 1
         redo_g(amount, guess, creation)
       else
-        lost_g
+        lost_g(creation)
         break
       end
     end

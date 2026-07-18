@@ -4,7 +4,7 @@ require_relative 'player'
 require 'pry-byebug'
 
 # The computerPLayer class, handles all things done by the computer player
-class ComputerPlayer2 < PlayerClass
+class ComputerPlayer < PlayerClass
   def initialize(game, marker)
     super
     @colored_peg = 0
@@ -38,8 +38,6 @@ class ComputerPlayer2 < PlayerClass
         break
       end
     end
-
-    self.occupied_places_h = []
   end
 
   def give_hint_white(colors_guessed_array, secret_code_array)
@@ -130,7 +128,3 @@ end
 # TODO
 # Work on fixing hint methods
 # Check optimizations required
-newPLayer = ComputerPlayer2.new('e', 'e')
-computer_gen = %w[red red blue red]
-player_guess = %w[red blue blue red]
-p newPLayer.give_colors(player_guess, computer_gen)
