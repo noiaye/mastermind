@@ -35,6 +35,35 @@ class ComputerPlayer < PlayerClass
     array.count { |item| item != 1 && item < 4 }
   end
 
+  def free_position(array)
+    free = []
+    array.each_with_index do |v, i|
+      next if v == 1
+
+      free.push(i)
+    end
+  end
+
+  def change_2_and_three(algorithm_array, index_of_ones)
+    binding.pry
+    occupied_positions = []
+    storageHash = {}
+#    newposition = ''
+    algorithm_array.each_with_index do |v, i|
+      new_position = 0
+      next unless [2, 3].include?(v)
+
+      loop do
+        new_position = algorithm_array.sample
+        break if new_position != i && occupied_positions.include?(new_position) == false 
+      end
+
+      occupied_positions.push(new_position)
+      storageHash["[#{i}]#{i}"] = "[#{new_position}]"
+    end
+    storageHash
+  end
+
   def change_three(computer_guess, algorithm_array)
     occupied_colors = []
     storage_hash = {}
@@ -174,10 +203,15 @@ newGame = ComputerPlayer.new('e', 'e')
 c_guess = %w[red red red red]
 real_t = %w[blue red gren yellow]
 
-algorithm_array = [3, 1, 3, 3]
-hash = newGame.change_three(c_guess, algorithm_array) # Hash should be {red => newColor, index}
-puts hash
-
+algorithm_array = [2, 1, 3, 3]
+indexofones = [1]
+# hash = newGame.change_three(c_guess, algorithm_array) # Hash should be {red => newColor, index}
+# puts hash
+hash = newGame.change_2_and_three(algorithm_array, indexofones) #
+p hash
 # How change three works:
 # For each 3 in algorith marray
 # Make a new hash entry wit the orignal color, and a new generated color with its expected placement index in the expected new array consisting of these modified values and filters
+# TODO
+# mAKE INDEX OF ONES MAKER FUNCTION
+# debug the switch 2 method tihngy
