@@ -12,18 +12,58 @@ class ComputerPlayer < PlayerClass
     @algorithm_array = %w[nil nil nil nil]
     @occupied_places_f = []
     @occupied_places_h = []
+    @colors = %w[red blue white yellow green pink black orange brown]
   end
-  attr_accessor :algorithm_array, :occupied_places_f, :colored_peg, :white_peg, :occupied_places_h
+  attr_accessor :algorithm_array, :occupied_places_f, :colored_peg, :white_peg, :occupied_places_h, :colors
 
   def randomizecolors
     new_array = []
-    colors = %w[red blue white yellow green pink black orange brown]
+
     4.times do |i|
       p i
       colors.shuffle!
       new_array.push(colors[i])
     end
     new_array
+  end
+
+  def check_conditions_three(array)
+    array.count { |item| item == 3 }
+  end
+
+  def check_conditions_two(array)
+    array.count { |item| item != 1 && item < 4 }
+  end
+
+  def change_three(computer_guess, algorithm_array)
+    occupied_colors = []
+    storage_hash = {}
+    new_color = ''
+    algorithm_array.each_with_index do |v, i|
+      next unless v == 3
+
+      p 'looks at 3'
+
+      original_color = computer_guess[i]
+      loop do
+        new_color = colors.sample
+        break if new_color != original_color && occupied_colors.include?(new_color) == false
+      end
+
+      occupied_colors.push(new_color)
+      storage_hash["#{original_color}#{i}"] = "[#{new_color}][#{i}]"
+    end
+    storage_hash
+  end
+
+  def do_condition(filter_three, filter_two, algorithm_array)
+    loop do
+      if check_conditions_three(algorithm_array).positive?
+        # Invoke filter three
+      elsif check_conditions_two(algorithm_array) >= 2
+        # Invoke filter 2
+      end
+    end
   end
 
   def give_hint_exact(colors_guessed_array, secret_code_array)
@@ -126,5 +166,18 @@ class ComputerPlayer < PlayerClass
 end
 
 # TODO
-# Work on fixing hint methods
+
+# Make the shuffler for algorithm
 # Check optimizations required
+newGame = ComputerPlayer.new('e', 'e')
+
+c_guess = %w[red red red red]
+real_t = %w[blue red gren yellow]
+
+algorithm_array = [3, 1, 3, 3]
+hash = newGame.change_three(c_guess, algorithm_array) # Hash should be {red => newColor, index}
+puts hash
+
+# How change three works:
+# For each 3 in algorith marray
+# Make a new hash entry wit the orignal color, and a new generated color with its expected placement index in the expected new array consisting of these modified values and filters
