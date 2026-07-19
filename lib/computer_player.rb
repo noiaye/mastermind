@@ -44,25 +44,42 @@ class ComputerPlayer < PlayerClass
     end
   end
 
+  def sample(array)
+    array.sample
+  end
+  
+  def randomize( algorithm_array)
+    sample(algorithm_array)
+  end
+
   def change_2_and_three(algorithm_array, index_of_ones)
     binding.pry
+    storage_position = 0
     occupied_positions = []
     storageHash = {}
-#    newposition = ''
+    #    newposition = ''
     algorithm_array.each_with_index do |v, i|
       new_position = 0
       next unless [2, 3].include?(v)
 
-      loop do
-        new_position = algorithm_array.sample
-        break if new_position != i && occupied_positions.include?(new_position) == false 
+      loop do 
+        new_position = [0, 1, 2, 3].sample
+        break if occupied_positions.include?(new_position) == false && index_of_ones.include?(new_position) == false && new_position != i
+        next
       end
 
-      occupied_positions.push(new_position)
-      storageHash["[#{i}]#{i}"] = "[#{new_position}]"
-    end
+      storage_position = new_position
+      occupied_positions.push(storage_position)
+
+      storageHash["[#{v}]#{i}"] = "[#{storage_position}]"
+
+      storage_position = 0
+
+       
+     end
     storageHash
   end
+  # Do this
 
   def change_three(computer_guess, algorithm_array)
     occupied_colors = []
@@ -77,6 +94,8 @@ class ComputerPlayer < PlayerClass
       loop do
         new_color = colors.sample
         break if new_color != original_color && occupied_colors.include?(new_color) == false
+
+        new_color = 0
       end
 
       occupied_colors.push(new_color)
