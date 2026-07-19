@@ -80,6 +80,9 @@ class GameClass
     end
   end
 
+  
+
+
   def human_play_against_computer
     # OPTIMIZE
     creation = human_player.create_colors
