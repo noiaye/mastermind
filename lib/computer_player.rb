@@ -53,7 +53,6 @@ class ComputerPlayer < PlayerClass
   end
 
   def change_2_and_three(algorithm_array, index_of_ones)
-    binding.pry
     storage_position = 0
     occupied_positions = []
     storageHash = {}
@@ -103,6 +102,11 @@ class ComputerPlayer < PlayerClass
     end
     storage_hash
   end
+
+#  def interpret_three(hash)
+#    first_value = hash[0]
+#    p first_value
+#  end
 
   def do_condition(filter_three, filter_two, algorithm_array)
     loop do
@@ -224,13 +228,13 @@ real_t = %w[blue red gren yellow]
 
 algorithm_array = [2, 1, 3, 3]
 indexofones = [1]
-# hash = newGame.change_three(c_guess, algorithm_array) # Hash should be {red => newColor, index}
+hash = newGame.change_three(c_guess, algorithm_array) # Hash should be {red => newColor, index}
 # puts hash
-hash = newGame.change_2_and_three(algorithm_array, indexofones) #
-p hash
+# hash = newGame.change_2_and_three(algorithm_array, indexofones) #
+newGame.interpret_three(hash) 
 # How change three works:
 # For each 3 in algorith marray
 # Make a new hash entry wit the orignal color, and a new generated color with its expected placement index in the expected new array consisting of these modified values and filters
 # TODO
 # mAKE INDEX OF ONES MAKER FUNCTION
-# debug the switch 2 method tihngy
+# make interpreter for hashes.
