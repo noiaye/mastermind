@@ -35,7 +35,7 @@ class GameClass
     self.current_player_id = other_player_id
   end
 
-  def puts_win
+  def puts_win(creation)
     puts 'You guessed the code correctly! Well done.'
 
     puts creation
@@ -68,7 +68,7 @@ class GameClass
       guess = human_player.guess
 
       if won?(guess, creation)
-        puts_win
+        puts_win(creation)
         break
       elsif guess != creation && amount < 12
         self.amount += 1
@@ -79,9 +79,6 @@ class GameClass
       end
     end
   end
-
-  
-
 
   def human_play_against_computer
     # OPTIMIZE
