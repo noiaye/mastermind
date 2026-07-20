@@ -15,18 +15,111 @@ class ComputerPlayer < PlayerClass
     @algorithm_array = %w[nil nil nil nil]
     @occupied_places_f = []
     @occupied_places_h = []
+    @colors = %w[red blue white yellow green pink black orange brown]
   end
-  attr_accessor :algorithm_array, :occupied_places_f, :colored_peg, :white_peg, :occupied_places_h
+  attr_accessor :algorithm_array, :occupied_places_f, :colored_peg, :white_peg, :occupied_places_h, :colors
 
   def randomizecolors
     new_array = []
-    colors = %w[red blue white yellow green pink black orange brown]
+
     4.times do |i|
       p i
       colors.shuffle!
       new_array.push(colors[i])
     end
     new_array
+  end
+
+  def check_conditions_three(array)
+    array.count { |item| item == 3 }
+  end
+
+  def check_conditions_two(array)
+    array.count { |item| item != 1 && item < 4 }
+  end
+
+  def free_position(array)
+    free = []
+    array.each_with_index do |v, i|
+      next if v == 1
+
+      free.push(i)
+    end
+  end
+
+  def sample(array)
+    array.sample
+  end
+
+  def randomize(algorithm_array)
+    sample(algorithm_array)
+  end
+
+  def change_2_and_three(algorithm_array, index_of_ones)
+    storage_position = 0
+    occupied_positions = []
+    storageHash = {}
+    #    newposition = ''
+    algorithm_array.each_with_index do |v, i|
+      new_position = 0
+      next unless [2, 3].include?(v)
+
+      loop do
+        new_position = [0, 1, 2, 3].sample
+        if occupied_positions.include?(new_position) == false && index_of_ones.include?(new_position) == false && new_position != i
+          break
+        end
+
+        next
+      end
+
+      storage_position = new_position
+      occupied_positions.push(storage_position)
+
+      storageHash["[#{v}]#{i}"] = "[#{storage_position}]"
+
+      storage_position = 0
+    end
+    storageHash
+  end
+  # Do this
+
+  def change_three(computer_guess, algorithm_array)
+    occupied_colors = []
+    storage_hash = {}
+    new_color = ''
+    algorithm_array.each_with_index do |v, i|
+      next unless v == 3
+
+      p 'looks at 3'
+
+      original_color = computer_guess[i]
+      loop do
+        new_color = colors.sample
+        break if new_color != original_color && occupied_colors.include?(new_color) == false
+
+        new_color = 0
+      end
+
+      occupied_colors.push(new_color)
+      storage_hash["#{original_color}#{i}"] = "[#{new_color}][#{i}]"
+    end
+    storage_hash
+  end
+
+  #  def interpret_three(hash)
+  #    first_value = hash[0]
+  #    p first_value
+  #  end
+
+  def do_condition(filter_three, filter_two, algorithm_array)
+    loop do
+      if check_conditions_three(algorithm_array).positive?
+        # Invoke filter three
+      elsif check_conditions_two(algorithm_array) >= 2
+        # Invoke filter 2
+      end
+    end
   end
 
   def give_hint_exact(colors_guessed_array, secret_code_array)
@@ -129,5 +222,23 @@ class ComputerPlayer < PlayerClass
 end
 
 # TODO
-# Work on fixing hint methods
+
+# Make the shuffler for algorithm
 # Check optimizations required
+newGame = ComputerPlayer.new('e', 'e')
+
+c_guess = %w[red red red red]
+real_t = %w[blue red gren yellow]
+
+algorithm_array = [2, 1, 3, 3]
+indexofones = [1]
+hash = newGame.change_three(c_guess, algorithm_array) # Hash should be {red => newColor, index}
+# puts hash
+# hash = newGame.change_2_and_three(algorithm_array, indexofones) #
+# newGame.interpret_three(hash)
+# How change three works:
+# For each 3 in algorith marray
+# Make a new hash entry wit the orignal color, and a new generated color with its expected placement index in the expected new array consisting of these modified values and filters
+# TODO
+# mAKE INDEX OF ONES MAKER FUNCTION
+# make interpreter for hashes.

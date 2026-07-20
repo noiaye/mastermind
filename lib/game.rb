@@ -112,3 +112,5 @@ end
 
 game = GameClass.new
 game.computer_play_against_human
+
+# Fix player computer play against player
