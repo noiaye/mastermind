@@ -52,6 +52,17 @@ class ComputerPlayer < PlayerClass
     sample(algorithm_array)
   end
 
+  def new_positions(hash, comp_guess)
+    new_array = []
+    hash.each_pair do |key, value|
+      index = key[1]
+      value_c = comp_guess[index]
+      
+      new_array[value] = value_c
+    end
+    new_array
+  end
+
   def change_2_and_three(algorithm_array, index_of_ones)
     storage_position = 0
     occupied_positions = []
@@ -70,7 +81,7 @@ class ComputerPlayer < PlayerClass
       storage_position = new_position
       occupied_positions.push(storage_position)
 
-      storageHash["[#{v}]#{i}"] = "[#{storage_position}]"
+      storageHash[[v, i]] = storage_position
 
       storage_position = 0
 
@@ -158,6 +169,7 @@ class ComputerPlayer < PlayerClass
   end
 
   def perform_filter(player_creation, computer_guess)
+    binding.pry
     exact_values(computer_guess, player_creation)
     dif_index(computer_guess, player_creation)
     none_index(computer_guess, player_creation)
@@ -207,6 +219,7 @@ class ComputerPlayer < PlayerClass
         next unless v != x && occupied_places_f.include?(y) == false && occupied_places_f.include?(i) == false
 
         algorithm_array[i] = 3
+        occupied_places_f.push(y)
         break
       end
     end
@@ -223,15 +236,16 @@ end
 # Check optimizations required
 newGame = ComputerPlayer.new('e', 'e')
 
-c_guess = %w[red red red red]
-real_t = %w[blue red gren yellow]
+c_guess = %w[blue red yellow red]
+real_t = %w[blue red green yellow]
 
-algorithm_array = [2, 1, 3, 3]
+algorithm_array = newGame.perform_filter(real_t, c_guess)
+p "Algorithm, array #{algorithm_array}"
 indexofones = [1]
-hash = newGame.change_three(c_guess, algorithm_array) # Hash should be {red => newColor, index}
+# hash = newGame.change_three(c_guess, algorithm_array) # Hash should be {red => newColor, index}
 # puts hash
-# hash = newGame.change_2_and_three(algorithm_array, indexofones) #
-newGame.interpret_three(hash) 
+p hash = newGame.change_2_and_three(algorithm_array, indexofones) #
+p newGame.new_positions(hash, c_guess) 
 # How change three works:
 # For each 3 in algorith marray
 # Make a new hash entry wit the orignal color, and a new generated color with its expected placement index in the expected new array consisting of these modified values and filters
