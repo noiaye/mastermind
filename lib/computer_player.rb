@@ -47,8 +47,8 @@ class ComputerPlayer < PlayerClass
   def sample(array)
     array.sample
   end
-  
-  def randomize( algorithm_array)
+
+  def randomize(algorithm_array)
     sample(algorithm_array)
   end
 
@@ -61,9 +61,12 @@ class ComputerPlayer < PlayerClass
       new_position = 0
       next unless [2, 3].include?(v)
 
-      loop do 
+      loop do
         new_position = [0, 1, 2, 3].sample
-        break if occupied_positions.include?(new_position) == false && index_of_ones.include?(new_position) == false && new_position != i
+        if occupied_positions.include?(new_position) == false && index_of_ones.include?(new_position) == false && new_position != i
+          break
+        end
+
         next
       end
 
@@ -73,9 +76,7 @@ class ComputerPlayer < PlayerClass
       storageHash["[#{v}]#{i}"] = "[#{storage_position}]"
 
       storage_position = 0
-
-       
-     end
+    end
     storageHash
   end
   # Do this
@@ -103,10 +104,10 @@ class ComputerPlayer < PlayerClass
     storage_hash
   end
 
-#  def interpret_three(hash)
-#    first_value = hash[0]
-#    p first_value
-#  end
+  #  def interpret_three(hash)
+  #    first_value = hash[0]
+  #    p first_value
+  #  end
 
   def do_condition(filter_three, filter_two, algorithm_array)
     loop do
@@ -231,7 +232,7 @@ indexofones = [1]
 hash = newGame.change_three(c_guess, algorithm_array) # Hash should be {red => newColor, index}
 # puts hash
 # hash = newGame.change_2_and_three(algorithm_array, indexofones) #
-newGame.interpret_three(hash) 
+# newGame.interpret_three(hash)
 # How change three works:
 # For each 3 in algorith marray
 # Make a new hash entry wit the orignal color, and a new generated color with its expected placement index in the expected new array consisting of these modified values and filters
