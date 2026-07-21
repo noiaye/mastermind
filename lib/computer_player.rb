@@ -33,6 +33,13 @@ class ComputerPlayer < PlayerClass
     array.count { |item| item == 3 }
   end
 
+  def index_of_ones(algorithm_array)
+    new_array = []
+    algorithm_array.each_with_index do |v, i|
+      new_array.push(i) if v == 1
+    end
+  end
+
   def check_conditions_two(array)
     array.count { |item| item != 1 && item < 4 }
   end
@@ -54,7 +61,7 @@ class ComputerPlayer < PlayerClass
     sample(algorithm_array)
   end
 
-  def new_positions(hash, comp_guess)
+  def newpositions23(hash, comp_guess)
     new_array = []
     hash.each_pair do |key, value|
       index = key[1]
@@ -66,6 +73,7 @@ class ComputerPlayer < PlayerClass
   end
 
   def change_2_and_three(algorithm_array, index_of_ones)
+    # This shows the new positions for 2 and 3
     storage_position = 0
     occupied_positions = []
     storageHash = {}
@@ -95,6 +103,7 @@ class ComputerPlayer < PlayerClass
   # Do this
 
   def change_three(computer_guess, algorithm_array)
+    # Changes all the threes
     occupied_colors = []
     storage_hash = {}
     new_color = ''
@@ -171,7 +180,6 @@ class ComputerPlayer < PlayerClass
   end
 
   def perform_filter(player_creation, computer_guess)
-    binding.pry
     exact_values(computer_guess, player_creation)
     dif_index(computer_guess, player_creation)
     none_index(computer_guess, player_creation)
@@ -241,11 +249,14 @@ end
 # Check optimizations required
 newGame = ComputerPlayer.new('e', 'e')
 
-c_guess = %w[purple red yellow red]
+c_guess = %w[blue red yellow red]
 real_t = %w[blue red green yellow]
+index_of_ones = [0, 1]
 
 algorithm_array = newGame.perform_filter(real_t, c_guess)
-p algorithm_array
+hash = newGame.change_2_and_three(algorithm_array, index_of_ones)
+new_pos = newGame.newpositions23(hash, c_guess)
+p new_pos
 # testExact1 = newGame.exact_values(c_guess, real_t)
 
 # testExact = newGame.dif_index(c_guess, real_t)
