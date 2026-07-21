@@ -13,8 +13,10 @@ class ComputerPlayer < PlayerClass
     @occupied_places_f = []
     @occupied_places_h = []
     @colors = %w[red blue white yellow green pink black orange brown]
+    @filter_array = []
   end
-  attr_accessor :algorithm_array, :occupied_places_f, :colored_peg, :white_peg, :occupied_places_h, :colors
+  attr_accessor :algorithm_array, :occupied_places_f, :colored_peg, :white_peg, :occupied_places_h, :colors,
+                :filter_array
 
   def randomizecolors
     new_array = []
@@ -47,8 +49,8 @@ class ComputerPlayer < PlayerClass
   def sample(array)
     array.sample
   end
-  
-  def randomize( algorithm_array)
+
+  def randomize(algorithm_array)
     sample(algorithm_array)
   end
 
@@ -57,7 +59,7 @@ class ComputerPlayer < PlayerClass
     hash.each_pair do |key, value|
       index = key[1]
       value_c = comp_guess[index]
-      
+
       new_array[value] = value_c
     end
     new_array
@@ -72,9 +74,12 @@ class ComputerPlayer < PlayerClass
       new_position = 0
       next unless [2, 3].include?(v)
 
-      loop do 
+      loop do
         new_position = [0, 1, 2, 3].sample
-        break if occupied_positions.include?(new_position) == false && index_of_ones.include?(new_position) == false && new_position != i
+        if occupied_positions.include?(new_position) == false && index_of_ones.include?(new_position) == false && new_position != i
+          break
+        end
+
         next
       end
 
@@ -84,9 +89,7 @@ class ComputerPlayer < PlayerClass
       storageHash[[v, i]] = storage_position
 
       storage_position = 0
-
-       
-     end
+    end
     storageHash
   end
   # Do this
@@ -114,10 +117,10 @@ class ComputerPlayer < PlayerClass
     storage_hash
   end
 
-#  def interpret_three(hash)
-#    first_value = hash[0]
-#    p first_value
-#  end
+  #  def interpret_three(hash)
+  #    first_value = hash[0]
+  #    p first_value
+  #  end
 
   def do_condition(filter_three, filter_two, algorithm_array)
     loop do
@@ -131,7 +134,6 @@ class ComputerPlayer < PlayerClass
 
   def give_hint_exact(colors_guessed_array, secret_code_array)
     # Do
-
     colors_guessed_array.each_with_index do |v, i|
       secret_code_array.each_with_index do |x, y|
         next unless v == x && i == y && occupied_places_h.include?(y) == false
@@ -192,11 +194,12 @@ class ComputerPlayer < PlayerClass
   def exact_values(computer_guess, player_creation)
     computer_guess.each_with_index do |v, i|
       player_creation.each_with_index do |x, y|
-        next unless v == x && i == y && occupied_places_f.include?(y) == false
+        next unless v == x && i == y
+
+        break if filter_array.any? { |v| v[0] == i || v[1] == y }
 
         algorithm_array[i] = 1
-        occupied_places_f.push(y)
-        break
+        filter_array.push([i, y])
       end
     end
   end
@@ -204,11 +207,12 @@ class ComputerPlayer < PlayerClass
   def dif_index(computer_guess, player_creation)
     computer_guess.each_with_index do |v, i|
       player_creation.each_with_index do |x, y|
-        next unless v == x && i != y && occupied_places_f.include?(i) == false && occupied_places_f.include?(y) == false
+        next unless v == x && i != y
+
+        break if filter_array.any? { |v| v[0] == i || v[1] == y }
 
         algorithm_array[i] = 2
-        occupied_places_f.push(y)
-        break
+        filter_array.push([i, y])
       end
     end
   end
@@ -216,11 +220,13 @@ class ComputerPlayer < PlayerClass
   def none_index(computer_guess, player_creation)
     computer_guess.each_with_index do |v, i|
       player_creation.each_with_index do |x, y|
-        next unless v != x && occupied_places_f.include?(y) == false && occupied_places_f.include?(i) == false
+        next unless v != x
+
+        next if filter_array.any? { |v| v[0] == i || v[1] == y }
 
         algorithm_array[i] = 3
-        occupied_places_f.push(y)
-        break
+
+        filter_array.push([i, y])
       end
     end
   end
@@ -229,23 +235,27 @@ class ComputerPlayer < PlayerClass
     puts 'red blue white yellow green pink black orange brown'
   end
 end
-
 # TODO
 
 # Make the shuffler for algorithm
 # Check optimizations required
 newGame = ComputerPlayer.new('e', 'e')
 
-c_guess = %w[blue red yellow red]
+c_guess = %w[purple red yellow red]
 real_t = %w[blue red green yellow]
 
 algorithm_array = newGame.perform_filter(real_t, c_guess)
-p "Algorithm, array #{algorithm_array}"
-indexofones = [1]
+p algorithm_array
+# testExact1 = newGame.exact_values(c_guess, real_t)
+
+# testExact = newGame.dif_index(c_guess, real_t)
+# p testExact
+# p "Algorithm, array #{algorithm_array}"
+# indexofones = [1]
 # hash = newGame.change_three(c_guess, algorithm_array) # Hash should be {red => newColor, index}
 # puts hash
-p hash = newGame.change_2_and_three(algorithm_array, indexofones) #
-p newGame.new_positions(hash, c_guess) 
+# p hash = newGame.change_2_and_three(algorithm_array, indexofones) #
+# p newGame.new_positions(hash, c_guess)
 # How change three works:
 # For each 3 in algorith marray
 # Make a new hash entry wit the orignal color, and a new generated color with its expected placement index in the expected new array consisting of these modified values and filters
