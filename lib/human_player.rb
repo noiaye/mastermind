@@ -15,7 +15,7 @@ class HumanPlayer < PlayerClass
     end
   end
 
-  def create_colors
+  def self.create_colors
     colors = %w[red blue white yellow green pink black orange brown]
     puts 'Create a color code of 4 colors, they may repeat, format is "color color color color"'
     gets.downcase.split(' ')

@@ -5,26 +5,15 @@ require 'pry-byebug'
 
 # The computerPLayer class, handles all things done by the computer player
 class ComputerPlayer < PlayerClass
-  def initialize(game, marker)
-    super
-    @colored_peg = 0
-    @white_peg = 0
-    @algorithm_array = %w[nil nil nil nil]
-    @occupied_places_f = []
-    @occupied_places_h = []
-    @colors = %w[red blue white yellow green pink black orange brown]
-    @filter_array = []
-  end
   attr_accessor :algorithm_array, :occupied_places_f, :colored_peg, :white_peg, :occupied_places_h, :colors,
                 :filter_array
 
-  def randomizecolors
+  def self.make_code_computer(colors)
     new_array = []
 
-    4.times do |i|
-      p i
-      colors.shuffle!
-      new_array.push(colors[i])
+    4.times do
+      random = colors.sample
+      new_array.push(random)
     end
     new_array
   end
