@@ -1,18 +1,16 @@
-require_relative 'helpers/send_code_module'
+require_relative 'codemaker_class'
+require_relative 'code_decoder_class'
+require_relative 'select_player_module'
 
 class PlayersClass
+  include SelectPlayer
   attr_accessor :code_maker, :code_breaker
 
-  def self.choose_player
-    puts 'Do you (Human) want to be the maker or the guesser?'
-    gets.chomp
-  end
-
-  def self.maker
-    if choose_player == 'maker'
-      'player'
-    elsif choose_player == 'guesser'
-      'computer'
-    end
+  def initialize
+    @code_maker = CodeMaker.new(select_maker(choose_player))
+    # @code_breaker = CodeMaker.new(choose_player)
   end
 end
+
+examplePlayer = PlayersClass.new
+p examplePlayer.code_maker

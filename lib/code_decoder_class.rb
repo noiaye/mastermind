@@ -1,7 +1,6 @@
 # Guess Code
 # Second Code to Game
 #
-require_relative 'helpers/send_code_module'
 
 class CodeDecoder
   attr_accessor :code_guess
@@ -10,6 +9,7 @@ class CodeDecoder
     @code_guess
   end
 
-  def guess_code_computer(all_colors)
+  def guess_code(all_colors, player)
+    nil unless player == 'computer'
   end
 end
