@@ -5,11 +5,11 @@
 class CodeDecoder
   attr_accessor :code_guess
 
-  def initialize
-    @code_guess
+  def initialize(name)
+    @name = name
   end
 
-  def guess_code(all_colors, player)
-    nil unless player == 'computer'
-  end
+  # def guess_code(all_colors, player)
+
+  # end
 end

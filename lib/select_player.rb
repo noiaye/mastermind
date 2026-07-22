@@ -1,16 +1,12 @@
-# class SelectPlayer
-#   def self.choose_player
-#     puts 'Do you (Human) want to be the maker or the guesser?'
-#     gets.chomp
-#   end
-# end
+class SelectPlayer
+  attr_accessor :answer, :answer_array
 
-module SelectPlayer
-  def choose_player_breaker
+  def choose_player
     puts 'Do you (Human) want to be the maker or the guesser?'
-    answer = gets.chomp
-    return unless answer == 'maker'
-
-    'computer'
+    if gets.chomp == 'maker'
+      %w[player computer]
+    else
+      %w[computer player]
+    end
   end
 end

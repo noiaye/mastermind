@@ -3,14 +3,16 @@ require_relative 'human_player'
 require_relative 'select_player'
 
 class CodeMaker
+  attr_accessor :name
+
   def initialize(name)
     @name = name
   end
 
-  def self.make_code(maker, colors)
-    if maker == 'computer'
+  def make_code(colors)
+    if name == 'computer'
       ComputerPlayer.make_code_computer(colors)
-    elsif maker == 'player'
+    elsif name == 'player'
       HumanPlayer.create_colors
     end
   end
