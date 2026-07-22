@@ -1,6 +1,5 @@
 require_relative 'codemaker_class'
 require_relative 'code_decoder_class'
-require_relative 'select_player'
 
 class PlayersClass
   attr_accessor :code_maker, :code_breaker, :answer, :answer_array, :select_player
@@ -9,7 +8,6 @@ class PlayersClass
     @answer = choose_player
     @code_maker = CodeMaker.new(answer[0])
     @code_breaker = CodeDecoder.new(answer[1])
-    # @code_breaker = CodeMaker.new(select_player.select_guesser(select_player.answer_array))
   end
 
   def choose_player
@@ -21,6 +19,3 @@ class PlayersClass
     end
   end
 end
-
-examplePlayer = PlayersClass.new
-p examplePlayer

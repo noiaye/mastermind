@@ -1,5 +1,7 @@
 class Colors
+  attr_accessor :colors
+
   def initialize
-    %w[red blue white yellow green pink black orange brown]
+    @colors = %w[red blue white yellow green pink black orange brown]
   end
 end

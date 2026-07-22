@@ -1,6 +1,5 @@
 require_relative 'computer_player'
 require_relative 'human_player'
-require_relative 'select_player'
 
 class CodeMaker
   attr_accessor :name
